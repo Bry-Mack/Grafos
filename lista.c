@@ -40,7 +40,7 @@ int main(void){
     insereA( g, 2, 3);
     insereA( g, 1, 3);
     insereA( g, 0, 3);
-    removeA( g, 0, 2);
+    removeA( g, 0, 1);
     show(g);
     indeg(g, 3); 
     outdeg(g, 0); 
@@ -86,7 +86,6 @@ void insereA( TGrafo *G, int v, int w){
         ant = aux;
         aux = aux->prox;
     }
-
     novo = (TNo *) calloc( 1, sizeof(TNo));
     novo->elem = w;
     // lista vazia, insere no inicio
@@ -106,15 +105,18 @@ void removeA( TGrafo *G, int v, int w){
 
     // andar na lista
     aux = G->adj[v];
-    ant = NULL;
+    ant = aux;
     while( aux && aux->elem < w ){ // aux != NULL
         ant = aux;
         aux = aux->prox;
     }
-
+    printf("%d ", aux->elem);
+    printf("%d ", ant->elem);
     // lista vazia, insere no inicio
-    if( ant == NULL )
-      printf("Aresta nao existe");
+    if(ant==aux){
+      G->adj[v]=G->adj[v]->prox;
+      aux=NULL; 
+    }
     else{
       printf("\n %d %d", ant->elem, aux->elem);
       ant->prox = aux->prox;
