@@ -25,25 +25,32 @@ void indeg(TGrafo *G, int x);
 void outdeg(TGrafo *G, int x);
 void libera(TGrafo *G);
 void removeA(TGrafo *G, int v, int w);
+int ehCaminho(int seq[], int k,TGrafo *G);
 
 
 // Funcao cliente que utiliza a TAD TGrafo
 int main(void){
 
     TGrafo *g;
-
+    int seq [] = {2,4,1,2,4,1};
     // aloca a estrutura TGrafo e atribui em g
-    g = Init(4);
-    insereA( g, 0, 1);
+    g = Init(6);
     insereA( g, 0, 2);
-    insereA( g, 2, 1);
-    insereA( g, 2, 3);
-    insereA( g, 1, 3);
+    insereA( g, 0, 4);
     insereA( g, 0, 3);
-    removeA( g, 0, 2);
+    insereA( g, 1, 2);
+    insereA( g, 2, 4);
+    insereA( g, 3, 4);
+    insereA( g, 3, 5);
+    insereA( g, 4, 1);
+    insereA( g, 4, 5);
+    insereA( g, 5, 1);
+    //removeA(g, 3, 5);
     show(g);
-    indeg(g, 3); 
-    outdeg(g, 0); 
+    printf("\nresposta: %d", ehCaminho(seq, 5, g));
+
+    //indeg(g, 2); // saida 1
+    //outdeg(g, 2); //saida 2
 
     return 0;
 }
@@ -171,3 +178,26 @@ void outdeg(TGrafo *G, int x){
 void libera(TGrafo *G){
   free(G);
 }
+
+int ehCaminho(int seq[], int k, TGrafo *G){
+    //k eh o comprimento do caminho
+    int i,v,w;
+    TNo *aux;
+    for( i=0; i < k; i++){
+        v = seq[i];
+        w = seq[i+1];
+        // busca o w
+        /*aux = G->adj[v];
+        while( aux && aux->elem != w )
+            aux = aux->prox
+        */
+        for( aux = G->adj[v]; aux && aux->elem != w; aux = aux->prox );
+
+        //if ( aux == NULL )
+        if( !aux )
+            return 0;
+    }
+
+    return 1;
+}
+
