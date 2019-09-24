@@ -40,7 +40,7 @@ int main(void){
     insereA( g, 2, 3);
     insereA( g, 1, 3);
     insereA( g, 0, 3);
-    removeA( g, 0, 1);
+    removeA( g, 0, 2);
     show(g);
     indeg(g, 3); 
     outdeg(g, 0); 
@@ -110,15 +110,12 @@ void removeA( TGrafo *G, int v, int w){
         ant = aux;
         aux = aux->prox;
     }
-    printf("%d ", aux->elem);
-    printf("%d ", ant->elem);
     // lista vazia, insere no inicio
     if(ant==aux){
       G->adj[v]=G->adj[v]->prox;
       aux=NULL; 
     }
     else{
-      printf("\n %d %d", ant->elem, aux->elem);
       ant->prox = aux->prox;
       aux=NULL;
    
