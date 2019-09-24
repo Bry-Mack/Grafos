@@ -26,6 +26,8 @@ void outdeg(TGrafo *G, int x);
 void libera(TGrafo *G);
 void removeA(TGrafo *G, int v, int w);
 int ehCaminho(int seq[], int k,TGrafo *G);
+void Busca( TGrafo * G);
+void BuscaProf(TGrafo *G, int v, int * visitado);
 
 
 // Funcao cliente que utiliza a TAD TGrafo
@@ -51,6 +53,17 @@ int main(void){
 
     //indeg(g, 2); // saida 1
     //outdeg(g, 2); //saida 2
+    //printf("\nBusca em Profundidade: ");
+    //Busca(g);
+    printf("\nExiste caminho de 1 ateh 0 ?\n");
+    int *visitado = (int*)calloc(g->V, sizeof(int));
+    BuscaProf(g, 1, visitado);
+    if(visitado[0])
+        printf("\nSIM");
+    else
+        printf("\nNAO");
+     // libera a memoria do vetor visitado
+    free(visitado);
 
     return 0;
 }
@@ -199,5 +212,38 @@ int ehCaminho(int seq[], int k, TGrafo *G){
     }
 
     return 1;
+}
+
+void Busca( TGrafo * G){
+    //para Cada v?rtice v de G fa?a
+    //	marque v como n?o visitado
+    //     calloc aloca e inicializa com 0
+    int *visitado = (int*)calloc(G->V, sizeof(int));
+    int v;
+    // para Cada v?rtice v de G fa?a
+    for(v=0; v <G->V; v++)
+        // se v n?o foi visitado ent?o
+        //if( visitado[v]== 0)
+        if( !visitado[v])
+            //Busca-prof( G, v)
+            BuscaProf( G, v, visitado );
+    // libera a memoria do vetor visitado
+    free(visitado);
+}
+
+void BuscaProf(TGrafo *G, int v, int * visitado){
+    TNo *w;
+    // marque v como visitado
+    visitado[v]=1;
+	  //imprime v
+	  printf("%d ",v);
+    //para Cada v?rtice w adjacente a v fa?a
+  	w = G->adj[v];
+	  while( w ){
+        // se w n?o foi visitado ent?o
+        if(!visitado[w->elem])
+            BuscaProf(G, w->elem, visitado);
+        w = w->prox;
+	}
 }
 
