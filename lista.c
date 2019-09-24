@@ -24,10 +24,8 @@ void show(TGrafo *G);
 void indeg(TGrafo *G, int x);
 void outdeg(TGrafo *G, int x);
 void libera(TGrafo *G);
-/*
-Falta implementar
 void removeA(TGrafo *G, int v, int w);
-*/
+
 
 // Funcao cliente que utiliza a TAD TGrafo
 int main(void){
@@ -42,6 +40,7 @@ int main(void){
     insereA( g, 2, 3);
     insereA( g, 1, 3);
     insereA( g, 0, 3);
+    removeA( g, 0, 2);
     show(g);
     indeg(g, 3); 
     outdeg(g, 0); 
@@ -101,6 +100,31 @@ void insereA( TGrafo *G, int v, int w){
     G->A++;
 }
 
+//insere aresta (ordenada)
+void removeA( TGrafo *G, int v, int w){
+    TNo *aux, *ant;
+
+    // andar na lista
+    aux = G->adj[v];
+    ant = NULL;
+    while( aux && aux->elem < w ){ // aux != NULL
+        ant = aux;
+        aux = aux->prox;
+    }
+
+    // lista vazia, insere no inicio
+    if( ant == NULL )
+      printf("Aresta nao existe");
+    else{
+      printf("\n %d %d", ant->elem, aux->elem);
+      ant->prox = aux->prox;
+      aux=NULL;
+   
+      G->A--;
+    }
+  
+}
+
 //exibe o grafo
 void show(TGrafo *G){
     int v,w;
@@ -142,4 +166,9 @@ void outdeg(TGrafo *G, int x){
     
     }
     printf("\noutdeg para %d: %d",x,cont);
+}
+
+//libera grafo
+void libera(TGrafo *G){
+  free(G);
 }
