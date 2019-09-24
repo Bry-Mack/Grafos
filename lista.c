@@ -15,7 +15,7 @@ typedef struct _TNo{
 typedef struct{
 	int V; // quantidade de vertices
 	int A; // quantidade de arestas
-	TNo **adj; //listas de adjacï¿½ncia
+	TNo **adj; //listas de adjac?ncia
 }TGrafo;
 
 TGrafo * Init( int V );
@@ -27,7 +27,6 @@ void libera(TGrafo *G);
 /*
 Falta implementar
 void removeA(TGrafo *G, int v, int w);
-void libera(TGrafo *G);
 */
 
 // Funcao cliente que utiliza a TAD TGrafo
@@ -44,8 +43,8 @@ int main(void){
     insereA( g, 1, 3);
     insereA( g, 0, 3);
     show(g);
-    indeg(g, 3);
-    outdeg(g, 0);
+    indeg(g, 3); 
+    outdeg(g, 0); 
 
     return 0;
 }
@@ -64,13 +63,41 @@ TGrafo * Init( int V ){
     return grafo;
 }
 
-//insere aresta
+/*insere aresta (sem ordenação)
 void insereA( TGrafo *G, int v, int w){
     TNo *novo; //inicializa novo no
     novo = (TNo *) calloc( 1, sizeof(TNo));
     novo->elem = w; //atribui elemento w
     novo->prox = G->adj[v]; //adiciona na lista v
     G->adj[v] = novo;
+    G->A++;
+}*/
+
+//insere aresta (ordenada)
+void insereA( TGrafo *G, int v, int w){
+    TNo *novo, *aux, *ant;
+
+    // andar na lista
+    aux = G->adj[v];
+    ant = NULL;
+    while( aux && aux->elem <= w ){ // aux != NULL
+        // testa se o w jah estah inserido na lista de adjacencia
+        if( aux->elem == w )
+            return;
+        ant = aux;
+        aux = aux->prox;
+    }
+
+    novo = (TNo *) calloc( 1, sizeof(TNo));
+    novo->elem = w;
+    // lista vazia, insere no inicio
+    if( ant == NULL )
+      G->adj[v] = novo;
+    else
+        ant->prox = novo;
+
+    novo->prox = aux;
+
     G->A++;
 }
 
@@ -81,9 +108,9 @@ void show(TGrafo *G){
     printf("\nGrafo V=%d A=%d", G->V, G->A);
     for(v=0;v<G->V;v++){
         printf("\n%d:",v);
-        aux = G->adj[v]; //percorre vÃ©rtice origem
+        aux = G->adj[v]; //percorre vértice origem
         while( aux ){ // aux != NULL
-            printf(" %d",aux->elem); //percorre lista de vÃ©rtices destino do vÃ©rtice origem
+            printf(" %d",aux->elem); //percorre lista de vértices destino do vértice origem
             aux = aux->prox;
         }
     }
@@ -94,7 +121,7 @@ void indeg(TGrafo *G, int x){
     int v;
     for(v=0;v<G->V;v++){
         TNo *aux;
-        aux = G->adj[v]; //percorre vÃ©rtice origem
+        aux = G->adj[v]; //percorre vértice origem
         while( aux ){ // aux != NULL
             if(aux->elem==x){
                 cont++;
@@ -108,16 +135,11 @@ void indeg(TGrafo *G, int x){
 void outdeg(TGrafo *G, int x){
     int cont=0;
     TNo *aux;
-    aux = G->adj[x]; //percorre vÃ©rtice origem
+    aux = G->adj[x]; //percorre vértice origem
     while( aux ){ // aux != NULL
       cont++;
       aux = aux->prox;
-
+    
     }
     printf("\noutdeg para %d: %d",x,cont);
-}
-
-void libera(TGrafo *G){
-    free(G);
-
 }
