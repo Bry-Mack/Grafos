@@ -21,6 +21,9 @@ typedef struct{
 TGrafo * Init( int V );
 void insereA( TGrafo *G, int v, int w);
 void show(TGrafo *G);
+void indeg(TGrafo *G, int x);
+void outdeg(TGrafo *G, int x);
+void libera(TGrafo *G);
 /*
 Falta implementar
 void removeA(TGrafo *G, int v, int w);
@@ -41,9 +44,8 @@ int main(void){
     insereA( g, 1, 3);
     insereA( g, 0, 3);
     show(g);
-
-    //indeg(g, 2); // saida 1
-    //outdeg(g, 2); //saida 2
+    indeg(g, 3);
+    outdeg(g, 0);
 
     return 0;
 }
@@ -85,4 +87,37 @@ void show(TGrafo *G){
             aux = aux->prox;
         }
     }
+}
+
+void indeg(TGrafo *G, int x){
+    int cont=0;
+    int v;
+    for(v=0;v<G->V;v++){
+        TNo *aux;
+        aux = G->adj[v]; //percorre vértice origem
+        while( aux ){ // aux != NULL
+            if(aux->elem==x){
+                cont++;
+            }
+            aux = aux->prox;
+        }
+    }
+    printf("\nindeg para %d: %d",x,cont);
+}
+
+void outdeg(TGrafo *G, int x){
+    int cont=0;
+    TNo *aux;
+    aux = G->adj[x]; //percorre vértice origem
+    while( aux ){ // aux != NULL
+      cont++;
+      aux = aux->prox;
+
+    }
+    printf("\noutdeg para %d: %d",x,cont);
+}
+
+void libera(TGrafo *G){
+    free(G);
+
 }
