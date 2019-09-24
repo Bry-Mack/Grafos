@@ -104,6 +104,7 @@ void indeg(TGrafo *G, int x){
     printf("\nindeg para %d: %d",x,cont);
 }
 
+//retorna grau de saída de um vertice x
 void outdeg(TGrafo *G, int x){
     int cont = 0;
     int w;
@@ -115,6 +116,7 @@ void outdeg(TGrafo *G, int x){
     printf("\noutdeg para %d: %d",x,cont);
 }
 
+//libera grafo
 void libera(TGrafo *G){
   free(G);
 }
