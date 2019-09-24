@@ -1,5 +1,5 @@
 /*
-Implementa uma estrutura para armazenar um grafo utilizando matriz de adjacencia com linhas e colunas indexadas por vertices
+GRAFO REPRESENTADO POR MATRIZ EM C
 */
 
 #include <stdio.h>
