@@ -70,7 +70,7 @@ void insereA( TGrafo *G, int v, int w){
     }
 }
 
-//reomve aresta
+//remove aresta
 void removeA( TGrafo *G, int v, int w){
     // testa se existe aresta
     if(G->adj[v][w]){
